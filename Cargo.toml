@@ -1,0 +1,8 @@
+[package]
+name = "sultan"
+version = "0.1.0"
+authors = ["Blake Williams <blake@blakewilliams.me>"]
+
+[dependencies]
+rustbox = "0.6"
+regex = "0.1"
