@@ -67,12 +67,15 @@ fn render_lines(rustbox: &RustBox, matcher: &mut Matcher) {
     rustbox.clear();
 
     let search_box_text = format!("> {}", matcher.input);
-    rustbox.print(1, 0, rustbox::RB_BOLD, Color::White, Color::Black, &search_box_text);
+    rustbox.print(0, 0, rustbox::RB_BOLD, Color::White, Color::Black, &search_box_text);
 
-    let mut index = 1;
+    let counts = format!("{}/{}", matcher.matches.len(), matcher.lines.len());
+    rustbox.print(0, 1, rustbox::RB_NORMAL, Color::Yellow, Color::Black, &counts);
+
+    let mut index = 2;
 
     for line in matcher.matches.clone() {
-        if index == matcher.selection {
+        if index == matcher.selection + 2 {
             rustbox.print(0, index, rustbox::RB_BOLD, Color::Red, Color::Black, ">");
             rustbox.print(2, index, rustbox::RB_BOLD, Color::Red, Color::Black, &line);
         } else {

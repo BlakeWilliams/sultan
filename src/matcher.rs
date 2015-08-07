@@ -3,7 +3,7 @@ extern crate regex;
 use self::regex::Regex;
 
 pub struct Matcher<'a> {
-    lines: &'a Vec<String>,
+    pub lines: &'a Vec<String>,
     pub matches: Vec<&'a String>,
     pub input: String,
     pub selection: usize,
@@ -20,7 +20,7 @@ impl<'a> Matcher<'a> {
         Matcher {
             lines: lines,
             input: String::new(),
-            selection: 1,
+            selection: 0,
             matches: matches,
         }
     }
@@ -36,14 +36,14 @@ impl<'a> Matcher<'a> {
     }
 
     pub fn selected_match(&mut self) -> String {
-        match self.matches.get(self.selection - 1) {
+        match self.matches.get(self.selection) {
             Some(match_text) => match_text.clone().to_string(),
             None => "".to_string(),
         }
     }
 
     pub fn move_up(&mut self) {
-        if self.selection != 1 {
+        if self.selection != 0 {
             self.selection -= 1;
         }
     }
