@@ -19,7 +19,7 @@ eg: `vim $(ls | sultan)` to fuzzy find a file and open it in vim.
 
 ## TODO
 
-[ ] Add highlighting to results.
+[x] Add highlighting to results.
 [ ] Show match and total counts.
 [ ] Asynchronously read stdin.
 [ ] Add pretty colors.
