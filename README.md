@@ -1,9 +1,9 @@
 # Sultan
 
 Sultan is a fuzzy finder written in Rust. The name "Sultan" comes from the very
-fuzzy [chicken](sultans) breed of the same name.
+fuzzy [chicken breed] of the same name.
 
-[sultans]: https://en.wikipedia.org/wiki/Sultan_chicken
+[chicken breed]: https://en.wikipedia.org/wiki/Sultan_chicken
 
 ## Installation
 
@@ -19,7 +19,7 @@ eg: `vim $(ls | sultan)` to fuzzy find a file and open it in vim.
 
 ## TODO
 
-[x] Add highlighting to results.
-[x] Show match and total counts.
-[ ] Asynchronously read stdin.
-[ ] Add pretty colors.
+* [x] Add highlighting to results.
+* [x] Show match and total counts.
+* [ ] Asynchronously read stdin.
+* [ ] Add pretty colors.
