@@ -49,7 +49,7 @@ impl<'a> Matcher<'a> {
     }
 
     pub fn move_down(&mut self) {
-        if self.selection != self.matches.len() {
+        if self.selection != self.matches.len() - 1 {
             self.selection += 1;
         }
     }
@@ -67,6 +67,12 @@ impl<'a> Matcher<'a> {
             if re.is_match(&line) {
                 self.matches.push(&line);
             }
+        }
+
+        let length = self.matches.len() - 1;
+
+        if self.selection >= length {
+            self.selection = length
         }
     }
 }
