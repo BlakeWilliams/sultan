@@ -67,7 +67,7 @@ fn render_lines(rustbox: &RustBox, matcher: &mut Matcher) {
     rustbox.clear();
 
     let search_box_text = format!("> {}", matcher.input);
-    rustbox.print(0, 0, rustbox::RB_BOLD, Color::White, Color::Black, &search_box_text);
+    rustbox.print(0, 0, rustbox::RB_NORMAL, Color::White, Color::Black, &search_box_text);
 
     let counts = format!("{}/{}", matcher.matches.len(), matcher.lines.len());
     rustbox.print(0, 1, rustbox::RB_NORMAL, Color::Yellow, Color::Black, &counts);

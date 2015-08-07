@@ -1,6 +1,6 @@
 extern crate regex;
 
-use self::regex::Regex;
+use self::regex::{Regex,quote};
 
 pub struct Matcher<'a> {
     pub lines: &'a Vec<String>,
@@ -58,7 +58,7 @@ impl<'a> Matcher<'a> {
         self.matches.clear();
 
         let regex_string: String = self.input.split("").fold(String::new(), |acc, input| {
-            acc + ".*" + input
+            acc + ".*" + &quote(&input)
         });
 
         let re = Regex::new(&regex_string).unwrap();
