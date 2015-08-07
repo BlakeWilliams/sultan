@@ -13,27 +13,37 @@ fn main() {
 
     let mut matches: Vec<&String> = Vec::new();
     let mut input: String = String::new();
+    let mut selection: usize = 1;
 
     let rustbox = match RustBox::init(Default::default()) {
         Result::Ok(v) => v,
         Result::Err(e) => panic!("{}", e),
     };
 
-    loop {
-        matches.clear();
-        find_matches(input.clone(), &all_lines, &mut matches);
-        render_lines(&rustbox, input.clone(), &matches);
+    find_matches(input.clone(), &all_lines, &mut matches);
+    render_lines(&rustbox, input.clone(), &matches, selection);
 
+    loop {
         match rustbox.poll_event(false) {
             Ok(rustbox::Event::KeyEvent(key)) => {
                 match key {
                     Some(Key::Enter) => {
-                        print!("{}", matches.first().unwrap());
+                        print!("{}", matches.get(selection - 1).unwrap());
                         break;
                     },
                     Some(Key::Esc) => { break; },
                     Some(Key::Backspace) => {
                         input.pop();
+                    },
+                    Some(Key::Down) => {
+                        if selection != rustbox.height() && selection != matches.len() {
+                            selection += 1
+                        }
+                    },
+                    Some(Key::Up) => {
+                        if selection != 1 {
+                            selection -= 1
+                        }
                     },
                     Some(Key::Char(character)) => {
                         input = format!("{}{}", input, character)
@@ -46,6 +56,16 @@ fn main() {
 
             _ => { }
         }
+
+        matches.clear();
+        find_matches(input.clone(), &all_lines, &mut matches);
+
+        let count = matches.len();
+        if selection > count && count != 0 {
+            selection = matches.len();
+        }
+
+        render_lines(&rustbox, input.clone(), &matches, selection);
     }
 }
 
@@ -69,14 +89,20 @@ fn find_matches<'a>(search: String, base: &'a Vec<String>, matches: &mut Vec<&'a
     }
 }
 
-fn render_lines(rustbox: &RustBox, search_string: String, matches: &Vec<&String>) {
+fn render_lines(rustbox: &RustBox, search_string: String, matches: &Vec<&String>, selection: usize) {
     rustbox.clear();
 
-    rustbox.print(1, 0, rustbox::RB_BOLD, Color::White, Color::Black, &search_string);
+    let search_box_text = format!("> {}", search_string);
+    rustbox.print(1, 0, rustbox::RB_BOLD, Color::White, Color::Black, &search_box_text);
 
     let mut index = 1;
     for line in matches {
-        rustbox.print(1, index, rustbox::RB_NORMAL, Color::White, Color::Black, &line);
+        if index == selection {
+            rustbox.print(0, index, rustbox::RB_BOLD, Color::Red, Color::Black, ">");
+            rustbox.print(2, index, rustbox::RB_BOLD, Color::Red, Color::Black, &line);
+        } else {
+            rustbox.print(2, index, rustbox::RB_NORMAL, Color::White, Color::Black, &line);
+        }
         index += 1;
     }
 
